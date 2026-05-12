@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Audio</title>
+  <style>
+    :root { --page-bg: #fbf8f1; --ink: #2f2923; --record: #ead8d6; --hourglass: #dcecef; --running: #e0ecd9; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; min-height: 100%; font-family: "Instrument Serif", Georgia, serif; background: var(--page-bg); }
+    body { min-height: 100vh; }
+    body::after { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; z-index: 9999; }
+
+    .page { position: relative; min-height: 100vh; width: 100%; overflow: hidden; background: var(--page-bg); }
+
+    .center-title {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-decoration: none; color: var(--ink);
+      font-family: "Instrument Serif", Georgia, serif;
+      font-style: italic; font-weight: 400;
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 1; letter-spacing: -0.02em;
+      z-index: 3; white-space: nowrap;
+      animation: titleFade 0.6s cubic-bezier(0.22,1,0.36,1) 0.08s both;
+    }
+    @keyframes titleFade {
+      from { opacity: 0; transform: translate(-50%, -46%); }
+      to   { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .tile {
+      position: absolute;
+      width: clamp(120px, 16vw, 210px);
+      aspect-ratio: 1/1;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1),
+                  opacity 0.25s ease, box-shadow 0.28s ease;
+      z-index: 1; overflow: hidden;
+      display: flex; align-items: flex-end;
+      justify-content: center; padding-bottom: 13px;
+      animation: tileFade 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes tileFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 0.84; transform: translateY(0); }
+    }
+    .tile-1 { animation-delay: 0.05s; }
+    .tile-2 { animation-delay: 0.13s; }
+    @keyframes tileFade3 {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 0.84; transform: translateX(-50%) translateY(0); }
+    }
+    .tile-3 { animation-name: tileFade3; animation-delay: 0.21s; }
+
+    .tile:hover, .tile:focus-visible {
+      opacity: 1; box-shadow: 0 8px 28px rgba(80,62,46,0.08);
+    }
+    .tile-1:hover, .tile-1:focus-visible { transform: scale(1.06); }
+    .tile-2:hover, .tile-2:focus-visible { transform: scale(1.06); }
+    .tile-3:hover, .tile-3:focus-visible { transform: translateX(-50%) scale(1.06); }
+
+    .tile-inner {
+      position: absolute; inset: 0; border-radius: 8px;
+      display: flex; align-items: flex-end;
+      justify-content: center; padding-bottom: 13px;
+    }
+    .tile-name {
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 0.6rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(47,41,35,0.56); text-align: center;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      pointer-events: none;
+    }
+    .tile:hover .tile-name, .tile:focus-visible .tile-name {
+      opacity: 1; transform: translateY(0);
+    }
+
+    
+    .tile-1 { background: var(--record); top: 11%; left: 9%; }
+    .tile-2 { background: var(--hourglass); top: 14%; right: 9%; }
+    .tile-3 { background: var(--running); top: 66%; left: 50%; transform: translateX(-50%); }
+
+    @media (max-width: 900px) {
+      .center-title { font-size: clamp(2.5rem, 9vw, 5rem); }
+      .tile { width: clamp(100px, 20vw, 160px); }
+      .tile-1 { top: 10%; left: 6%; }
+      .tile-2 { top: 13%; right: 6%; }
+      .tile-3 { top: 68%; }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        min-height: 100vh; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 20px; padding: 40px 20px;
+      }
+      .center-title {
+        position: relative; top: auto; left: auto; transform: none;
+        order: 2; text-align: center; animation: none; opacity: 1;
+      }
+      .tile {
+        position: relative; top: auto; left: auto; right: auto;
+        width: clamp(90px, 28vw, 140px); animation: none; opacity: 0.86;
+      }
+      .tile-3 { transform: none; }
+      .tile-1:hover,.tile-1:focus-visible,
+      .tile-2:hover,.tile-2:focus-visible,
+      .tile-3:hover,.tile-3:focus-visible { transform: scale(1.06); }
+      .tile-name { opacity: 1; transform: none; font-size: 0.58rem; }
+      .tiles-row { display: flex; justify-content: center; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="tiles-row">
+      <a class="tile tile-1" href="record.html" aria-label="Record Player">
+        <div class="tile-inner"><span class="tile-name">Record Player</span></div>
+      </a>
+      <a class="tile tile-2" href="hourglass.html" aria-label="Hourglass">
+        <div class="tile-inner"><span class="tile-name">Hourglass</span></div>
+      </a>
+    </div>
+    <div class="center-title"><span>&lt;Audio&gt;</span></div>
+    <div class="tiles-row">
+      <a class="tile tile-3" href="runningman.html" aria-label="Running Man">
+        <div class="tile-inner"><span class="tile-name">Running Man</span></div>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

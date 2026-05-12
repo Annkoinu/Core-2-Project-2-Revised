@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Hourglass</title>
+  <style>
+
+    :root { --accent: #dcecef; --page-bg: #fbf8f1; --ink: #2f2923; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--page-bg); font-family: "Instrument Serif", Georgia, serif; color: var(--ink); }
+    body::after { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; z-index: 9999; }
+
+    .page { width: 100%; min-height: 100vh; padding: 28px 32px 60px; display: flex; flex-direction: column; }
+
+    .topbar { margin-bottom: 28px; }
+    .back-link {
+      text-decoration: none; color: var(--ink);
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 0.65rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      opacity: 0.4; transition: opacity 0.18s ease;
+    }
+    .back-link:hover { opacity: 1; }
+
+    .page-title {
+      margin: 0; font-family: "Instrument Serif", Georgia, serif;
+      font-style: italic; font-weight: 400;
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      text-align: center; line-height: 1; letter-spacing: -0.02em;
+      animation: titleUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes titleUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .gif-frame {
+      width: 100%; overflow: hidden;
+      border-radius: 10px;
+      background: var(--accent);
+      box-shadow: 0 2px 14px rgba(80,62,46,0.06);
+    }
+    .gif-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .label-box {
+      padding: 10px 16px; border-radius: 6px;
+      background: var(--accent); color: var(--ink); text-align: left;
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 0.68rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .label-box span {
+      display: block; margin-top: 3px;
+      font-weight: 400; text-transform: none;
+      letter-spacing: 0; font-size: 0.78rem; opacity: 0.62;
+    }
+
+    @media (max-width: 520px) { .page { padding: 18px 16px 48px; } }
+
+    .content {
+      flex: 1;
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      align-items: start;
+      width: min(860px, 100%);
+      align-self: center;
+    }
+    .gif-card {
+      display: flex; flex-direction: column; gap: 12px;
+      animation: cardUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .gif-card:nth-child(1) { animation-delay: 0.1s; }
+    .gif-card:nth-child(2) { animation-delay: 0.18s; }
+    @keyframes cardUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .gif-frame { aspect-ratio: 2/3; }
+    @media (max-width: 640px) {
+      .content { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar"><a class="back-link" href="index.html">← back</a></div>
+    <h1 class="page-title">Hourglass</h1>
+    <section class="content">
+      <article class="gif-card">
+        <div class="gif-frame"><img src="hourglass/hover.gif" alt="Hourglass hover" /></div>
+        <div class="label-box">Hover<span>Cursor enters the component</span></div>
+      </article>
+      <article class="gif-card">
+        <div class="gif-frame"><img src="hourglass/play.gif" alt="Hourglass play" /></div>
+        <div class="label-box">Play<span>Click to start the audio</span></div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
